@@ -1,5 +1,6 @@
 ---
 import { site } from '@/data/site';
+import { asset } from '@/utils/url';
 ---
 <footer class="cta-footer">
   <div class="cta-footer__label">(Get in touch)</div>
@@ -9,7 +10,7 @@ import { site } from '@/data/site';
     <div class="cta-footer__col">
       <h4>Navigate</h4>
       <ul>
-        {site.nav.map(n => <li><a href={n.href}>{n.label}</a></li>)}
+        {site.nav.map(n => <li><a href={asset(n.href)}>{n.label}</a></li>)}
       </ul>
     </div>
     <div class="cta-footer__col">

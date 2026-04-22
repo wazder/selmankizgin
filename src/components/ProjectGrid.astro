@@ -14,7 +14,7 @@ const { items, heading = "Projects I worked on" } = Astro.props as Props;
 
   <div class="projects-grid">
     {items.map(p => (
-      <a class="project-card" href={`/project/${p.slug}`} data-cursor="-pointer" data-cursor-text="View" data-reveal>
+      <a class="project-card" href={asset(`/project/${p.slug}`)} data-cursor="-pointer" data-cursor-text="View" data-reveal>
         <div
           class="project-card__thumb"
           style={`background-image: url(${asset(p.thumbnail)});`}
