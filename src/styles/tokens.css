@@ -1,0 +1,107 @@
+:root {
+  /* Accent — neon lime */
+  --cl-accent: #C9F500;
+  --cl-accent-dim: rgba(201, 245, 0, 0.6);
+
+  /* Neutrals */
+  --cl-white: #ffffff;
+  --cl-black: #000000;
+
+  /* Dark mode scale (default) */
+  --cl-bg: #000000;
+  --cl-title: #ffffff;
+  --cl-subtitle: rgba(255, 255, 255, 0.72);
+  --cl-body: rgba(255, 255, 255, 0.5);
+  --cl-desc: rgba(255, 255, 255, 0.32);
+  --cl-disable: rgba(255, 255, 255, 0.16);
+  --cl-border: rgba(255, 255, 255, 0.1);
+
+  /* Light mode scale (used on CTA footer) */
+  --cl-lm-bg: #ffffff;
+  --cl-lm-txt: #000000;
+  --cl-lm-desc: rgba(0, 0, 0, 0.5);
+  --cl-lm-disable: rgba(0, 0, 0, 0.3);
+  --cl-lm-border: rgba(0, 0, 0, 0.12);
+
+  /* Type scale — 1rem = 10px (via html font-size 62.5%) */
+  --fs-10: 1rem;
+  --fs-12: 1.2rem;
+  --fs-14: 1.4rem;
+  --fs-16: 1.6rem;
+  --fs-18: 1.8rem;
+  --fs-20: 2rem;
+  --fs-24: 2.4rem;
+  --fs-36: 3.6rem;
+  --fs-h6: 2.8rem;
+  --fs-h5: 3.2rem;
+  --fs-h4: 4.4rem;
+  --fs-h3: 8rem;
+  --fs-h2: 13.3rem;
+  --fs-h1: 15rem;
+  --fs-display: 18rem;
+
+  /* Line heights */
+  --lh-tight: 1em;
+  --lh-snug: 1.1em;
+  --lh-normal: 1.2em;
+  --lh-relaxed: 1.3em;
+  --lh-loose: 1.4em;
+
+  /* Layout */
+  --container-width: 1728px;
+  --container-padding: 6rem;
+  --vh: 100vh;
+
+  /* Fonts */
+  --ff-display: 'Geist Variable', 'Geist', system-ui, sans-serif;
+  --ff-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;
+
+  /* Easings — six signature curves */
+  --ease-text: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-btn: cubic-bezier(0.75, 0, 0.125, 1);
+  --ease-hover: cubic-bezier(0.66, 0, 0.15, 1);
+  --ease-color: cubic-bezier(0.74, 0.06, 0.4, 0.92);
+  --ease-link: cubic-bezier(0.59, 0.23, 0.22, 0.96);
+  --ease-arrow: cubic-bezier(0.4, 0, 0.1, 1);
+
+  /* Modern CSS linear() springs (Chrome 113+, Safari 17.4+) */
+  --spring-long: linear(
+    0, 0.002, 0.009 1%, 0.035, 0.078, 0.141 4.4%, 0.281 6.7%, 0.723 12.9%,
+    0.842, 0.938, 1.017, 1.077 20.4%, 1.101, 1.121, 1.137, 1.149 24.3%,
+    1.159, 1.163, 1.161, 1.154, 1.143, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%,
+    1.002, 0.991, 0.982 48.9%, 0.977 51%, 0.974 53.8%, 0.975 57.1%,
+    0.979 60%, 0.997 69.8%, 1.001, 1.003 76.9%, 1.004 83.8%, 1
+  );
+  --spring-medium: linear(
+    0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938, 1.077 20.4%,
+    1.121, 1.149 24.3%, 1.163 27%, 1.154 29.9%, 1.017 43.1%, 0.991,
+    0.977 51%, 0.975 57.1%, 1.003 76.9%, 1
+  );
+  --spring-quick: linear(
+    0, 0.938 16.7%, 1.149 24.3%, 1.154 29.9%, 0.977 51%, 1
+  );
+
+  /* Z layers */
+  --z-grain: 1;
+  --z-header: 50;
+  --z-cursor: 100;
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --fs-h1: 9rem;
+    --fs-h2: 7.2rem;
+    --fs-h3: 5.2rem;
+    --container-padding: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --fs-h1: 5.6rem;
+    --fs-h2: 4.4rem;
+    --fs-h3: 3.6rem;
+    --fs-h4: 2.8rem;
+    --container-padding: 2rem;
+  }
+}

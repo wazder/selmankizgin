@@ -1,0 +1,37 @@
+---
+import { site } from '@/data/site';
+---
+<footer class="cta-footer">
+  <div class="cta-footer__label">(Get in touch)</div>
+  <a class="cta-footer__mail" href={`mailto:${site.email}`} data-cursor="-pointer">{site.email}</a>
+
+  <div class="cta-footer__cols">
+    <div class="cta-footer__col">
+      <h4>Navigate</h4>
+      <ul>
+        {site.nav.map(n => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </div>
+    <div class="cta-footer__col">
+      <h4>Socials</h4>
+      <ul>
+        {site.socials.map(s => <li><a href={s.href} target="_blank" rel="noopener">{s.label}</a></li>)}
+      </ul>
+    </div>
+    <div class="cta-footer__col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>{site.location}</li>
+      </ul>
+    </div>
+    <div class="cta-footer__col">
+      <h4>Colophon</h4>
+      <ul>
+        <li>Template: Astro + Solid</li>
+        <li>Motion: GSAP + Lenis</li>
+        <li>© {new Date().getFullYear()} {site.name}</li>
+      </ul>
+    </div>
+  </div>
+</footer>

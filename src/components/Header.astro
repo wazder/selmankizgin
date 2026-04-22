@@ -1,0 +1,34 @@
+---
+import { site } from '@/data/site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<header class="header">
+  <div class="header__left">
+    <div class="header__swap" aria-live="polite">
+      <span class="header__swap-item header__greeting" data-greeting>Good evening!</span>
+      <a class="header__swap-item header__name" href="/" data-cursor="-pointer">{site.firstName} {site.lastName}</a>
+    </div>
+  </div>
+
+  <nav class="header__socials" aria-label="Socials">
+    <span>Socials</span>
+    {site.socials.map((s, i) => (
+      <>
+        <span class="slash">/</span>
+        <a href={s.href} target="_blank" rel="noopener" data-cursor="-pointer" data-cursor-text={s.label}>{s.short}</a>
+      </>
+    ))}
+  </nav>
+
+  <div class="header__right">
+    <nav class="header__nav" aria-label="Main">
+      {site.nav.map((n, i) => (
+        <>
+          {i > 0 && <span class="slash">/</span>}
+          <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>
+        </>
+      ))}
+    </nav>
+    <a class="header__cta" href={`mailto:${site.email}`} data-cursor="-pointer">Let's talk</a>
+  </div>
+</header>

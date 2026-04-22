@@ -1,0 +1,26 @@
+---
+import { testimonials } from '@/data/projects';
+---
+<section class="testi container">
+  <h2 class="section-title" data-reveal>
+    <span>What people say</span>{' '}
+    <span class="muted">About me</span>{' '}
+    <span class="muted">(Testimonials)</span>
+  </h2>
+
+  <ul>
+    {testimonials.map((t, i) => (
+      <li class="testi__slide" data-reveal>
+        <div class="testi__index">{String(i + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}</div>
+        <div>
+          <p class="testi__quote">{t.quote}</p>
+          <div class="testi__author">
+            <strong>{t.author}</strong>
+            <span>·</span>
+            <span>{t.role}</span>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,8 @@
+---
+type Props = { label: string; title: string; href: string };
+const { label, title, href } = Astro.props;
+---
+<a class="next-post" href={href} data-cursor="-pointer" data-cursor-text="Go">
+  <div class="next-post__label">{label}</div>
+  <div class="next-post__title">{title}</div>
+</a>

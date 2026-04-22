@@ -1,0 +1,56 @@
+---
+import Base from '@/layouts/Base.astro';
+import { projects } from '@/data/projects';
+import { site } from '@/data/site';
+import { asset } from '@/utils/url';
+
+export function getStaticPaths() {
+  return projects.map(p => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const project = projects.find(p => p.slug === slug);
+if (!project) throw new Error(`Project not found: ${slug}`);
+
+const idx = projects.findIndex(p => p.slug === slug);
+const next = projects[(idx + 1) % projects.length];
+---
+<Base title={`${project.name} — ${site.name}`} description={project.selling}
+      nextPost={{ label: 'Next project', title: next.name, href: `/project/${next.slug}` }}>
+  <section class="post-hero">
+    <div class="container" data-reveal>
+      <div class="post-hero__eyebrow">(Case study · {project.year})</div>
+      <h1 class="post-hero__title">{project.name}</h1>
+
+      <dl class="post-hero__meta">
+        <div>
+          <dt>Role</dt>
+          <dd>{project.role}</dd>
+        </div>
+        <div>
+          <dt>Year</dt>
+          <dd>{project.year}</dd>
+        </div>
+        <div>
+          <dt>Services</dt>
+          <dd>{project.services.join(', ')}</dd>
+        </div>
+        <div>
+          <dt>Selling point</dt>
+          <dd>{project.selling}</dd>
+        </div>
+      </dl>
+
+      <div class="post-hero__thumb" style={`background-image: url(${asset(project.thumbnail)}); background-color: ${project.accent};`}></div>
+    </div>
+  </section>
+
+  <section class="post-body container">
+    {project.sections.map(s => (
+      <div class="post-body__grid" data-reveal>
+        <h2 class="post-body__heading">{s.heading}</h2>
+        <p class="post-body__text">{s.body}</p>
+      </div>
+    ))}
+  </section>
+</Base>

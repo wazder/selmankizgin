@@ -1,0 +1,28 @@
+---
+import { site } from '@/data/site';
+---
+<div class="loader" data-loader aria-hidden="true">
+  <div class="loader__half loader__half--top">
+    <div class="loader__half-inner">
+      <div class="loader__greeting">
+        <span data-loader-greeting>Hello</span><span class="loader__dots" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="loader__half loader__half--bottom">
+    <div class="loader__half-inner">
+      <div class="loader__name">
+        <span class="loader__name-line"><span class="loader__name-inner">{site.firstName}</span></span>
+        <span class="loader__name-line"><span class="loader__name-inner">{site.lastName}</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="loader__progress" aria-hidden="true">
+    <div class="loader__progress-track"></div>
+    <div class="loader__progress-fill"></div>
+  </div>
+
+  <div class="loader__seam" aria-hidden="true"></div>
+</div>
