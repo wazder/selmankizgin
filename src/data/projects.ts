@@ -9,85 +9,84 @@ export type Project = {
   accent: string;
   summary: string;
   sections: { heading: string; body: string }[];
+  href?: string;
+  external?: boolean;
 };
+
+const youtubeThumb = (id: string) => `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 
 export const projects: Project[] = [
   {
-    slug: 'helix-bank',
-    name: 'Helix Bank',
-    year: '2025',
-    role: 'Lead Product Designer',
-    services: ['Product Design', 'Design System'],
-    selling: 'A mobile-first neobank for the Gen-Z wallet.',
-    thumbnail: '/placeholders/thumb-01.svg',
+    slug: 'cinematic-01',
+    name: 'Sinematik Sahne I',
+    year: '2026',
+    role: 'AI Director',
+    services: ['AI Visuals', 'Prompt Engineering'],
+    selling: 'Sinematik ışık ve kompozisyonla kurgulanmış AI sahnesi.',
+    thumbnail: youtubeThumb('E1aYPYaT5Cc'),
     accent: '#C9F500',
     summary:
-      'Mock summary — redesigned the core onboarding and card-creation flow. Replace with real outcomes and metrics.',
+      'Sinematik bir atmosferi prompt engineering ile piksele döktüğüm kısa film denemesi.',
     sections: [
-      {
-        heading: 'The problem',
-        body: 'Placeholder narrative about the user pain, market gap, and constraints. Swap with your own writing.',
-      },
-      {
-        heading: 'Approach',
-        body: 'Describe the research, design decisions, and trade-offs. Keep it outcome-oriented.',
-      },
-      {
-        heading: 'Impact',
-        body: 'Numbers go here — activation lift, churn drop, NPS, retention curve.',
-      },
+      { heading: 'Yaklaşım', body: 'Işık, lens ve renk paletini prompt seviyesinde kurgulayarak sahnenin tonunu sabitledim.' },
+      { heading: 'Sonuç', body: 'Tek bir görsel akış — gerçekçilikten ödün vermeden, tekrar üretilebilir bir sahne.' },
     ],
+    href: 'https://www.youtube.com/watch?v=E1aYPYaT5Cc',
+    external: true,
   },
   {
-    slug: 'lumen-protocol',
-    name: 'Lumen Protocol',
-    year: '2024',
-    role: 'Design Lead',
-    services: ['Brand', 'Product Design'],
-    selling: 'On-chain credit rails, built for clarity.',
-    thumbnail: '/placeholders/thumb-02.svg',
+    slug: 'cinematic-02',
+    name: 'Sinematik Sahne II',
+    year: '2026',
+    role: 'AI Director',
+    services: ['AI Visuals', 'Motion'],
+    selling: 'Karakter ve mekan arasındaki dengeyi test eden AI çalışması.',
+    thumbnail: youtubeThumb('XVJznw96YUc'),
     accent: '#6EE7FF',
     summary:
-      'Mock summary — established the identity and dashboard IA for a DeFi protocol. Replace with real outcomes and metrics.',
+      'Karakter yönetimi ve sahne tutarlılığını öne çıkaran ikinci sinematik deneme.',
     sections: [
-      { heading: 'The problem', body: 'Placeholder narrative — swap with your own writing.' },
-      { heading: 'Approach', body: 'Placeholder approach — research, systems, explorations.' },
-      { heading: 'Impact', body: 'Placeholder outcomes.' },
+      { heading: 'Yaklaşım', body: 'Karakter seed sabitlemesi ve sahne-sahne stil tutarlılığı üzerine kurulu bir workflow.' },
+      { heading: 'Sonuç', body: 'Farklı açılardan tutarlı görünen bir AI karakteri.' },
     ],
+    href: 'https://www.youtube.com/watch?v=XVJznw96YUc',
+    external: true,
   },
   {
-    slug: 'orbit-invest',
-    name: 'Orbit Invest',
-    year: '2023',
-    role: 'Product Designer',
-    services: ['Product Design', 'Illustration'],
-    selling: 'Retirement that actually speaks to people.',
-    thumbnail: '/placeholders/thumb-03.svg',
+    slug: 'cinematic-03',
+    name: 'Sinematik Sahne III',
+    year: '2026',
+    role: 'AI Director',
+    services: ['AI Visuals', 'Storytelling'],
+    selling: 'Hikaye odaklı, AI ile üretilmiş kısa anlatı.',
+    thumbnail: youtubeThumb('YqUnJ8ZSIlQ'),
     accent: '#E5FF00',
     summary:
-      'Mock summary — reimagined the goals flow for a long-horizon investment app. Replace with real outcomes and metrics.',
+      'Kısa bir anlatıyı AI ile sahneleme üzerine üçüncü deneme.',
     sections: [
-      { heading: 'The problem', body: 'Placeholder narrative — swap with your own writing.' },
-      { heading: 'Approach', body: 'Placeholder approach — research, systems, explorations.' },
-      { heading: 'Impact', body: 'Placeholder outcomes.' },
+      { heading: 'Yaklaşım', body: 'Hikaye beat’leri üzerinden prompt planlaması ve stil kilidi.' },
+      { heading: 'Sonuç', body: 'Uçtan uca tek elden üretilmiş, sinematik kısa anlatı.' },
     ],
+    href: 'https://www.youtube.com/watch?v=YqUnJ8ZSIlQ',
+    external: true,
   },
   {
-    slug: 'velvet-pay',
-    name: 'Velvet Pay',
-    year: '2023',
-    role: 'Senior Designer',
-    services: ['Brand', 'Motion'],
-    selling: 'Payment UX with a craftsman touch.',
+    slug: 'ai-reel',
+    name: 'AI Influencer Reel',
+    year: '2026',
+    role: 'AI Creator',
+    services: ['AI Influencer', 'Social'],
+    selling: '7/24 üretim yapan dijital karakterin Instagram reel’i.',
     thumbnail: '/placeholders/thumb-04.svg',
     accent: '#FF66C4',
     summary:
-      'Mock summary — crafted the checkout sequence and its micro-interactions. Replace with real outcomes and metrics.',
+      'Sıfırdan kurulan AI Influencer karakterinin sosyal medya çıktısı.',
     sections: [
-      { heading: 'The problem', body: 'Placeholder narrative — swap with your own writing.' },
-      { heading: 'Approach', body: 'Placeholder approach — research, systems, explorations.' },
-      { heading: 'Impact', body: 'Placeholder outcomes.' },
+      { heading: 'Yaklaşım', body: 'Karakter kimliği, ses tonu ve görsel dilin reel formatına uyarlanması.' },
+      { heading: 'Sonuç', body: 'Markalarla işbirliğine hazır, tekrar üretilebilir bir dijital kimlik.' },
     ],
+    href: 'https://www.instagram.com/reel/DWY-LwOjCuS/',
+    external: true,
   },
 ];
 

@@ -3,30 +3,43 @@ import type { Project } from '@/data/projects';
 import { asset } from '@/utils/url';
 
 type Props = { items: Project[]; heading?: string };
-const { items, heading = "Projects I worked on" } = Astro.props as Props;
+const { items, heading = 'Yakın zamanda tamamladığım projeler' } = Astro.props as Props;
 ---
 <section class="projects-section container">
   <h2 class="section-title" data-reveal>
     <span class="reg">{heading}</span>{' '}
-    <span class="muted">/ 16–25</span>{' '}
+    <span class="muted">/ {String(items.length).padStart(2, '0')}</span>{' '}
     <span class="muted">®</span>
   </h2>
 
   <div class="projects-grid">
-    {items.map(p => (
-      <a class="project-card" href={asset(`/project/${p.slug}`)} data-cursor="-pointer" data-cursor-text="View" data-reveal>
-        <div
-          class="project-card__thumb"
-          style={`background-image: url(${asset(p.thumbnail)});`}
-        ></div>
-        <div class="project-card__overlay">
-          <div>
-            <div class="project-card__name">{p.name}</div>
-            <div class="project-card__meta">{p.year} · {p.services.join(', ')}</div>
+    {items.map(p => {
+      const href = p.external && p.href ? p.href : asset(`/project/${p.slug}`);
+      const extra = p.external
+        ? { target: '_blank', rel: 'noopener noreferrer' }
+        : {};
+      return (
+        <a
+          class="project-card"
+          href={href}
+          data-cursor="-pointer"
+          data-cursor-text="View"
+          data-reveal
+          {...extra}
+        >
+          <div
+            class="project-card__thumb"
+            style={`background-image: url(${asset(p.thumbnail)});`}
+          ></div>
+          <div class="project-card__overlay">
+            <div>
+              <div class="project-card__name">{p.name}</div>
+              <div class="project-card__meta">{p.year} · {p.services.join(', ')}</div>
+            </div>
+            <div class="project-card__arrow" aria-hidden="true">↗</div>
           </div>
-          <div class="project-card__arrow" aria-hidden="true">↗</div>
-        </div>
-      </a>
-    ))}
+        </a>
+      );
+    })}
   </div>
 </section>

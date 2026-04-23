@@ -1,16 +1,294 @@
 ---
-import Base from '@/layouts/Base.astro';
-import Hero from '@/components/Hero.astro';
-import Intro from '@/components/Intro.astro';
-import ProjectGrid from '@/components/ProjectGrid.astro';
-import Testimonials from '@/components/Testimonials.astro';
-import { projects } from '@/data/projects';
+import { asset } from '@/utils/url';
 import { site } from '@/data/site';
+
+const title = `${site.name} — ${site.tagline}`;
+const description = site.tagline;
+const videoSrc = asset('/videos/matrix.mov');
+const homeHref = asset('/home');
 ---
-<Base title={`${site.name} — ${site.role}`} description={site.tagline}
-      nextPost={{ label: 'Next up', title: 'About', href: '/about' }}>
-  <Hero />
-  <Intro />
-  <ProjectGrid items={projects} heading="Projects I worked on" />
-  <Testimonials />
-</Base>
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <main class="gate" data-home-href={homeHref}>
+      <video
+        class="gate__video"
+        src={videoSrc}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+      ></video>
+
+      <section class="gate__content">
+        <h1 class="gate__title">
+          Seçimini <span class="gate__title-accent">yap.</span>
+        </h1>
+
+        <div class="gate__pills" role="group" aria-label="Seçimini yap">
+          <button type="button" class="pill pill--red" data-choice="red" aria-label="Gerçeği gör">
+            <span class="pill__sub">Gerçeği gör</span>
+          </button>
+
+          <button type="button" class="pill pill--blue" data-choice="blue" aria-label="Uykuya dön">
+            <span class="pill__sub">Uykuya dön</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="red-wipe" aria-hidden="true"></div>
+
+      <div class="blue-wipe" aria-hidden="true">
+        <span class="blue-wipe__panel"></span>
+        <span class="blue-wipe__panel"></span>
+        <span class="blue-wipe__panel"></span>
+        <span class="blue-wipe__panel"></span>
+        <span class="blue-wipe__panel"></span>
+      </div>
+
+      <div class="blackout" aria-hidden="true">
+        <p class="blackout__text">çok yazık…</p>
+      </div>
+    </main>
+
+    <script>
+      const main = document.querySelector<HTMLElement>('.gate');
+      if (main) {
+        const homeHref = main.dataset.homeHref || '/';
+
+        try {
+          if (sessionStorage.getItem('rp_entered') === 'true') {
+            window.location.replace(homeHref);
+          }
+        } catch {}
+
+        const redWipe = main.querySelector<HTMLElement>('.red-wipe');
+        const blueWipe = main.querySelector<HTMLElement>('.blue-wipe');
+        const blackout = main.querySelector<HTMLElement>('.blackout');
+
+        main.addEventListener('click', (event) => {
+          const target = (event.target as HTMLElement).closest<HTMLElement>('[data-choice]');
+          if (!target || main.classList.contains('is-locked')) return;
+          const choice = target.dataset.choice;
+          main.classList.add('is-locked');
+
+          if (choice === 'red') {
+            const rect = target.getBoundingClientRect();
+            const centerY = rect.top + rect.height / 2;
+            if (redWipe) {
+              redWipe.style.transformOrigin = `center ${centerY}px`;
+              requestAnimationFrame(() => redWipe.classList.add('is-active'));
+            }
+            try { sessionStorage.setItem('rp_entered', 'true'); } catch {}
+            window.setTimeout(() => { window.location.href = homeHref; }, 1200);
+          } else {
+            blueWipe?.classList.add('is-active');
+            window.setTimeout(() => { blackout?.classList.add('is-active'); }, 900);
+          }
+        });
+
+        const video = main.querySelector<HTMLVideoElement>('.gate__video');
+        if (video) {
+          const tryPlay = () => video.play().catch(() => {});
+          tryPlay();
+          document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) tryPlay();
+          });
+        }
+      }
+    </script>
+
+    <style is:global>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000;
+        color: #fff;
+        font-family: 'Geist Variable', 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        overflow: hidden;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      .gate {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: #000;
+      }
+
+      .gate__video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .gate__content {
+        position: relative;
+        z-index: 2;
+        width: min(92vw, 880px);
+        padding: 4vh 2vw;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.2rem;
+        animation: gate-fade-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+
+      .gate__title {
+        font-size: clamp(4.4rem, 9vw, 9.6rem);
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 2px 40px rgba(0,0,0,0.8);
+      }
+
+      .gate__title-accent {
+        color: #C9F500;
+        font-style: italic;
+      }
+
+      .gate__pills {
+        display: flex;
+        gap: clamp(2rem, 6vw, 6rem);
+        margin-top: clamp(6rem, 18vh, 14rem);
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .pill {
+        background: none;
+        border: 0;
+        color: inherit;
+        font: inherit;
+        cursor: pointer;
+        padding: 1.2rem 1.6rem;
+        display: inline-flex;
+        align-items: center;
+        transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+      }
+
+      .pill__sub {
+        font-size: clamp(1.4rem, 1.8vw, 1.8rem);
+        color: rgba(255,255,255,0.72);
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+      }
+
+      .pill:focus-visible { outline: none; }
+
+      .pill--red:hover .pill__sub,
+      .pill--red:focus-visible .pill__sub {
+        color: #ff6b6b;
+        text-shadow: 0 0 16px rgba(255,60,60,0.75);
+      }
+      .pill--blue:hover .pill__sub,
+      .pill--blue:focus-visible .pill__sub {
+        color: #6aa6ff;
+        text-shadow: 0 0 16px rgba(80,140,255,0.75);
+      }
+      .pill:hover, .pill:focus-visible { transform: translateY(-2px); }
+
+      /* Red pill wipe: grows from the pill's Y up and down until full screen */
+      .red-wipe {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(ellipse at center, #ff2a2a 0%, #c40000 70%, #5a0000 100%);
+        transform: scaleY(0);
+        transform-origin: center center;
+        transition: transform 1s cubic-bezier(0.77, 0, 0.18, 1);
+        z-index: 60;
+        pointer-events: none;
+        will-change: transform;
+      }
+      .red-wipe.is-active { transform: scaleY(1); }
+
+      /* Blue pill panels drop from top, stagger */
+      .blue-wipe {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        z-index: 60;
+        pointer-events: none;
+      }
+      .blue-wipe__panel {
+        flex: 1;
+        height: 100%;
+        background: linear-gradient(180deg, #1a4bff 0%, #2a6bff 60%, #0a2a9e 100%);
+        transform: translateY(-101%);
+        transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
+        will-change: transform;
+      }
+      .blue-wipe.is-active .blue-wipe__panel { transform: translateY(0); }
+      .blue-wipe.is-active .blue-wipe__panel:nth-child(1) { transition-delay: 0s; }
+      .blue-wipe.is-active .blue-wipe__panel:nth-child(2) { transition-delay: 0.08s; }
+      .blue-wipe.is-active .blue-wipe__panel:nth-child(3) { transition-delay: 0.16s; }
+      .blue-wipe.is-active .blue-wipe__panel:nth-child(4) { transition-delay: 0.24s; }
+      .blue-wipe.is-active .blue-wipe__panel:nth-child(5) { transition-delay: 0.32s; }
+
+      /* Black end card — fades in on top of the blue panels */
+      .blackout {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        display: grid;
+        place-items: center;
+        opacity: 0;
+        transition: opacity 0.9s ease;
+        z-index: 70;
+        pointer-events: none;
+      }
+      .blackout.is-active { opacity: 1; pointer-events: auto; }
+      .blackout__text {
+        margin: 0;
+        color: rgba(255,255,255,0.28);
+        font-family: 'Geist Variable', 'Geist', serif;
+        font-style: italic;
+        font-size: clamp(2.4rem, 4vw, 4rem);
+        letter-spacing: 0.08em;
+        transform: translateY(8px);
+        opacity: 0;
+        transition: opacity 1.4s ease 0.6s, transform 1.4s ease 0.6s;
+      }
+      .blackout.is-active .blackout__text { opacity: 1; transform: translateY(0); }
+
+      @keyframes gate-fade-in {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @media (max-width: 640px) {
+        .gate__content { gap: 1.6rem; }
+        .gate__pills { gap: 3rem; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .gate__content { animation: none; }
+        .red-wipe, .blue-wipe__panel, .blackout, .blackout__text { transition: none; }
+      }
+    </style>
+  </body>
+</html>

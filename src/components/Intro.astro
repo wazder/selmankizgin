@@ -1,5 +1,4 @@
 ---
-import { clientLogos } from '@/data/projects';
 import { site } from '@/data/site';
 ---
 <section class="intro container" data-reveal>
@@ -8,45 +7,38 @@ import { site } from '@/data/site';
   </div>
   <div class="intro__body">
     {site.description}{' '}
-    <span class="highlight">I help teams ship interfaces that feel clear, quiet, and confident.</span>
+    <span class="highlight">{site.ctaLead}</span>
   </div>
 
   <div class="intro__awards">
     <div class="intro__awards-head">
-      <div class="eyebrow">Awards</div>
-      <div class="muted">{site.awards.length} featured</div>
+      <div class="eyebrow">Bu eğitimde neler öğreneceksin?</div>
+      <div class="muted">{site.modules.length} modül</div>
     </div>
     <ul class="intro__awards-list">
-      {site.awards.map(a => (
+      {site.modules.map(m => (
         <li class="award-row" data-cursor="-pointer">
-          <span class="award-row__year">{a.year}</span>
-          <span class="award-row__name">{a.name}</span>
-          <span class="award-row__category">{a.category}</span>
+          <span class="award-row__year">{m.id}</span>
+          <span class="award-row__name">{m.name}</span>
+          <span class="award-row__category">{m.body}</span>
           <span class="award-row__mark">↗</span>
         </li>
       ))}
-    </ul>
-  </div>
-
-  <div class="clients">
-    <div class="eyebrow" style="margin-bottom: 2rem;">Industry leaders I worked for</div>
-    <ul class="clients__grid">
-      {clientLogos.map(c => <li>{c}</li>)}
     </ul>
   </div>
 </section>
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee__track">
-    <span>Product Design</span>
-    <span>Brand &amp; Strategy</span>
-    <span>Visual Design</span>
-    <span>Motion</span>
-    <span>Design Systems</span>
-    <span>Product Design</span>
-    <span>Brand &amp; Strategy</span>
-    <span>Visual Design</span>
-    <span>Motion</span>
-    <span>Design Systems</span>
+    <span>AI Prompt Engineering</span>
+    <span>AI Influencer</span>
+    <span>Sinematik Görsel</span>
+    <span>Content Monetization</span>
+    <span>Dropshipping</span>
+    <span>AI Prompt Engineering</span>
+    <span>AI Influencer</span>
+    <span>Sinematik Görsel</span>
+    <span>Content Monetization</span>
+    <span>Dropshipping</span>
   </div>
 </div>
