@@ -1,7 +1,7 @@
 :root {
-  /* Accent — neon lime */
-  --cl-accent: #C9F500;
-  --cl-accent-dim: rgba(201, 245, 0, 0.6);
+  /* Accent — red */
+  --cl-accent: #DE0501;
+  --cl-accent-dim: rgba(222, 5, 1, 0.6);
 
   /* Neutrals */
   --cl-white: #ffffff;
@@ -92,16 +92,29 @@
     --fs-h1: 9rem;
     --fs-h2: 7.2rem;
     --fs-h3: 5.2rem;
+    --fs-display: 12rem;
     --container-padding: 3rem;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --fs-h1: 7.2rem;
+    --fs-h2: 5.6rem;
+    --fs-h3: 4.4rem;
+    --fs-h4: 3.2rem;
+    --fs-display: 9rem;
+    --container-padding: 2.4rem;
   }
 }
 
 @media (max-width: 640px) {
   :root {
-    --fs-h1: 5.6rem;
-    --fs-h2: 4.4rem;
-    --fs-h3: 3.6rem;
-    --fs-h4: 2.8rem;
+    --fs-h1: 5.2rem;
+    --fs-h2: 4rem;
+    --fs-h3: 3.2rem;
+    --fs-h4: 2.6rem;
+    --fs-display: 6.4rem;
     --container-padding: 2rem;
   }
 }

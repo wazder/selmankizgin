@@ -15,5 +15,70 @@ import { site } from '@/data/site';
     <span class="accent">{site.heroAccentWord}</span>
   </h1>
 
+  <div class="hero__signup" id="signup" data-reveal>
+    <p class="hero__signup-lead">Mail adresine kayıt ol</p>
+    <form class="signup-form" data-signup-form novalidate>
+      <input
+        type="email"
+        name="email"
+        class="signup-form__input"
+        placeholder="seninadresin@mail.com"
+        autocomplete="email"
+        required
+      />
+      <button type="submit" class="signup-form__submit">Sıraya gir</button>
+      <p class="signup-form__msg" data-signup-msg role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
   <span class="hero__scroll-hint">Aşağı kaydır</span>
 </section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-signup-form]');
+  const msg = document.querySelector<HTMLParagraphElement>('[data-signup-msg]');
+  if (form && msg) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[name="email"]');
+      const email = input?.value.trim() || '';
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        msg.textContent = 'Geçerli bir e-posta adresi gir.';
+        msg.dataset.state = 'error';
+        return;
+      }
+      msg.textContent = 'Gönderiliyor…';
+      msg.dataset.state = 'pending';
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/neo@selmankizgin.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+            _subject: 'Yeni erken erişim kaydı',
+            _template: 'box',
+            _captcha: 'false',
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        const ok = res.ok && (data.success === 'true' || data.success === true);
+        if (!ok) {
+          console.error('signup failed', { status: res.status, data });
+          throw new Error(data.message || 'request failed');
+        }
+        msg.textContent = 'Sıradasın. Erken erişim açılınca sana haber vereceğiz.';
+        msg.dataset.state = 'success';
+        form.reset();
+      } catch (err) {
+        const detail = err instanceof Error ? err.message : '';
+        msg.textContent = detail
+          ? `Gönderilemedi: ${detail}`
+          : 'Gönderilemedi. Az sonra tekrar dene.';
+        msg.dataset.state = 'error';
+      }
+    });
+  }
+</script>

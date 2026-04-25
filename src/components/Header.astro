@@ -8,8 +8,26 @@ if (!path) path = '/';
 <header class="header">
   <div class="header__left">
     <div class="header__swap" aria-live="polite">
-      <span class="header__swap-item header__greeting" data-greeting>Good evening!</span>
+      <span class="header__swap-item header__greeting" data-greeting>Gerçek dünyaya hoş geldin.</span>
       <a class="header__swap-item header__name" href={`${base}/home`} data-cursor="-pointer">{site.firstName} {site.lastName}</a>
+    </div>
+    <div class="music-widget" data-music-widget data-ready="false" data-playing="false" data-muted="false" aria-label="Now playing">
+      <button type="button" class="music-widget__toggle" data-music-toggle data-cursor="-pointer" aria-label="Mute / unmute">
+        <span class="music-widget__bars" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+      </button>
+      <span class="music-widget__title" data-music-title>Şu an çalıyor</span>
+      <input
+        type="range"
+        class="music-widget__slider"
+        data-music-volume
+        min="0"
+        max="100"
+        step="1"
+        value="8"
+        aria-label="Ses seviyesi"
+      />
     </div>
   </div>
 
@@ -32,6 +50,21 @@ if (!path) path = '/';
         </>
       ))}
     </nav>
-    <a class="header__cta" href={`mailto:${site.email}`} data-cursor="-pointer">Let's talk</a>
+    <a class="header__cta" href={`${base}/home#signup`} data-signup-link data-cursor="-pointer">Sıraya gir</a>
   </div>
 </header>
+
+<script>
+  document.addEventListener('click', (event) => {
+    const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('[data-signup-link]');
+    if (!link) return;
+    const url = new URL(link.href, location.href);
+    if (url.pathname === location.pathname && url.hash) {
+      event.preventDefault();
+      const target = document.querySelector<HTMLElement>(url.hash);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+</script>

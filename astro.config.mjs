@@ -3,8 +3,7 @@ import solid from '@astrojs/solid-js';
 import swup from '@swup/astro';
 
 export default defineConfig({
-  site: 'https://wazder.github.io',
-  base: '/selmankizgin',
+  site: 'https://selmankizgin.com',
   integrations: [
     solid(),
     swup({

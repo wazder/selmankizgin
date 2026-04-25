@@ -8,17 +8,14 @@ export const site = {
   description:
     'Geleneksel iş modellerini yapay zeka ile nasıl optimize ettiğimi, dijital dünyada nasıl yüksek hacimli kazançlar sağladığımı ve bu gücü kendi avantajına nasıl kullanabileceğini öğretiyorum.',
   ctaLead: 'Erken erişim için bilgilerini doldurman yeterli.',
-  email: 'hello@example.com',
+  email: 'neo@selmankizgin.com',
   location: 'Istanbul, TR',
   socials: [
-    { label: 'Instagram', short: 'ig', href: 'https://www.instagram.com/' },
-    { label: 'YouTube', short: 'yt', href: 'https://www.youtube.com/' },
-    { label: 'X', short: 'x', href: 'https://x.com/' },
+    { label: 'LinkedIn', short: 'in', href: 'https://www.linkedin.com/in/selman-k%C4%B1zg%C4%B1n-699924227/' },
+    { label: 'Instagram', short: 'ig', href: 'https://www.instagram.com/selmannkizgin/' },
   ],
   nav: [
     { label: 'Ana Sayfa', href: '/home' },
-    { label: 'Hakkında', href: '/about' },
-    { label: 'Projeler', href: '/projects' },
   ],
   heroIntro: 'Simülasyondan çıkmaya hazır mısın?',
   heroHeadline: 'Doğru seçimi',

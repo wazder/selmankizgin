@@ -27,29 +27,20 @@ const homeHref = asset('/home');
         src={videoSrc}
         autoplay
         muted
-        loop
         playsinline
         preload="auto"
         aria-hidden="true"
       ></video>
 
-      <section class="gate__content">
-        <h1 class="gate__title">
-          Seçimini <span class="gate__title-accent">yap.</span>
-        </h1>
+      <div class="gate__halves" role="group" aria-label="Seçimini yap">
+        <button type="button" class="half half--red" data-choice="red" aria-label="Gerçeği gör"></button>
+        <button type="button" class="half half--blue" data-choice="blue" aria-label="Uykuya dön"></button>
+      </div>
 
-        <div class="gate__pills" role="group" aria-label="Seçimini yap">
-          <button type="button" class="pill pill--red" data-choice="red" aria-label="Gerçeği gör">
-            <span class="pill__sub">Gerçeği gör</span>
-          </button>
-
-          <button type="button" class="pill pill--blue" data-choice="blue" aria-label="Uykuya dön">
-            <span class="pill__sub">Uykuya dön</span>
-          </button>
-        </div>
-      </section>
-
-      <div class="red-wipe" aria-hidden="true"></div>
+      <div class="red-wipe" aria-hidden="true">
+        <span class="red-wipe__panel red-wipe__panel--top"></span>
+        <span class="red-wipe__panel red-wipe__panel--bottom"></span>
+      </div>
 
       <div class="blue-wipe" aria-hidden="true">
         <span class="blue-wipe__panel"></span>
@@ -60,24 +51,22 @@ const homeHref = asset('/home');
       </div>
 
       <div class="blackout" aria-hidden="true">
-        <p class="blackout__text">çok yazık…</p>
+        <p class="blackout__text" data-type="çok yazık..."><span class="blackout__prompt">&gt;</span><span class="blackout__typed"></span></p>
       </div>
     </main>
 
     <script>
+      import { initIntroMusic, handoffIntroMusic, destroyIntroMusic } from '@/scripts/intro-music';
+
       const main = document.querySelector<HTMLElement>('.gate');
       if (main) {
         const homeHref = main.dataset.homeHref || '/';
 
-        try {
-          if (sessionStorage.getItem('rp_entered') === 'true') {
-            window.location.replace(homeHref);
-          }
-        } catch {}
-
         const redWipe = main.querySelector<HTMLElement>('.red-wipe');
         const blueWipe = main.querySelector<HTMLElement>('.blue-wipe');
         const blackout = main.querySelector<HTMLElement>('.blackout');
+
+        initIntroMusic();
 
         main.addEventListener('click', (event) => {
           const target = (event.target as HTMLElement).closest<HTMLElement>('[data-choice]');
@@ -86,17 +75,41 @@ const homeHref = asset('/home');
           main.classList.add('is-locked');
 
           if (choice === 'red') {
-            const rect = target.getBoundingClientRect();
-            const centerY = rect.top + rect.height / 2;
             if (redWipe) {
-              redWipe.style.transformOrigin = `center ${centerY}px`;
               requestAnimationFrame(() => redWipe.classList.add('is-active'));
             }
-            try { sessionStorage.setItem('rp_entered', 'true'); } catch {}
-            window.setTimeout(() => { window.location.href = homeHref; }, 1200);
+            try {
+              sessionStorage.setItem('rp_entering', '1');
+            } catch {}
+            handoffIntroMusic(350);
+            window.setTimeout(() => { window.location.href = homeHref; }, 600);
           } else {
             blueWipe?.classList.add('is-active');
-            window.setTimeout(() => { blackout?.classList.add('is-active'); }, 900);
+            destroyIntroMusic();
+            window.setTimeout(() => {
+              blackout?.classList.add('is-active');
+              const textEl = blackout?.querySelector<HTMLElement>('.blackout__text');
+              const typedEl = blackout?.querySelector<HTMLElement>('.blackout__typed');
+              if (textEl && typedEl) {
+                const full = textEl.dataset.type || '';
+                const chars = Array.from(full);
+                let i = 0;
+                const tick = () => {
+                  if (i >= chars.length) return;
+                  const ch = chars[i++];
+                  if (ch === '.') {
+                    const dotEl = document.createElement('span');
+                    dotEl.className = 'blackout__dot';
+                    dotEl.textContent = ch;
+                    typedEl.appendChild(dotEl);
+                  } else {
+                    typedEl.appendChild(document.createTextNode(ch));
+                  }
+                  window.setTimeout(tick, 180);
+                };
+                window.setTimeout(tick, 400);
+              }
+            }, 900);
           }
         });
 
@@ -104,10 +117,20 @@ const homeHref = asset('/home');
         if (video) {
           const tryPlay = () => video.play().catch(() => {});
           tryPlay();
+          video.addEventListener('ended', () => {
+            try {
+              video.pause();
+              video.currentTime = Math.max(0, video.duration - 0.05);
+            } catch {}
+          });
           document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) tryPlay();
+            if (!document.hidden && !video.ended) tryPlay();
           });
         }
+
+        window.setTimeout(() => {
+          main.classList.add('is-text-gone');
+        }, 28000);
       }
     </script>
 
@@ -116,10 +139,12 @@ const homeHref = asset('/home');
         margin: 0;
         padding: 0;
         height: 100%;
+        height: 100dvh;
         background: #000;
         color: #fff;
         font-family: 'Geist Variable', 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
         overflow: hidden;
+        overscroll-behavior: none;
       }
 
       *, *::before, *::after { box-sizing: border-box; }
@@ -143,88 +168,47 @@ const homeHref = asset('/home');
         pointer-events: none;
       }
 
-      .gate__content {
-        position: relative;
+      .gate__halves {
+        position: absolute;
+        inset: 0;
         z-index: 2;
-        width: min(92vw, 880px);
-        padding: 4vh 2vw;
-        text-align: center;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2.2rem;
-        animation: gate-fade-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
-
-      .gate__title {
-        font-size: clamp(4.4rem, 9vw, 9.6rem);
-        line-height: 0.95;
-        letter-spacing: -0.03em;
-        font-weight: 700;
-        margin: 0;
-        text-shadow: 0 2px 40px rgba(0,0,0,0.8);
-      }
-
-      .gate__title-accent {
-        color: #C9F500;
-        font-style: italic;
-      }
-
-      .gate__pills {
-        display: flex;
-        gap: clamp(2rem, 6vw, 6rem);
-        margin-top: clamp(6rem, 18vh, 14rem);
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .pill {
-        background: none;
+      .half {
+        flex: 1;
+        position: relative;
+        background: transparent;
         border: 0;
-        color: inherit;
-        font: inherit;
+        padding: 0;
         cursor: pointer;
-        padding: 1.2rem 1.6rem;
-        display: inline-flex;
-        align-items: center;
-        transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
       }
+      .half:focus-visible { outline: none; }
 
-      .pill__sub {
-        font-size: clamp(1.4rem, 1.8vw, 1.8rem);
-        color: rgba(255,255,255,0.72);
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        transition: color 0.3s ease, text-shadow 0.3s ease;
-      }
-
-      .pill:focus-visible { outline: none; }
-
-      .pill--red:hover .pill__sub,
-      .pill--red:focus-visible .pill__sub {
-        color: #ff6b6b;
-        text-shadow: 0 0 16px rgba(255,60,60,0.75);
-      }
-      .pill--blue:hover .pill__sub,
-      .pill--blue:focus-visible .pill__sub {
-        color: #6aa6ff;
-        text-shadow: 0 0 16px rgba(80,140,255,0.75);
-      }
-      .pill:hover, .pill:focus-visible { transform: translateY(-2px); }
-
-      /* Red pill wipe: grows from the pill's Y up and down until full screen */
+      /* Red pill wipe: instant cover (no open animation) — home's entry handles the reveal */
       .red-wipe {
         position: fixed;
         inset: 0;
-        background: radial-gradient(ellipse at center, #ff2a2a 0%, #c40000 70%, #5a0000 100%);
-        transform: scaleY(0);
-        transform-origin: center center;
-        transition: transform 1s cubic-bezier(0.77, 0, 0.18, 1);
         z-index: 60;
         pointer-events: none;
-        will-change: transform;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.25s ease;
       }
-      .red-wipe.is-active { transform: scaleY(1); }
+      .red-wipe__panel {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 50%;
+      }
+      .red-wipe__panel--top {
+        top: 0;
+        background: linear-gradient(0deg, #ff2a2a 0%, #c40000 40%, #5a0000 100%);
+      }
+      .red-wipe__panel--bottom {
+        bottom: 0;
+        background: linear-gradient(180deg, #ff2a2a 0%, #c40000 40%, #5a0000 100%);
+      }
+      .red-wipe.is-active { opacity: 1; }
 
       /* Blue pill panels drop from top, stagger */
       .blue-wipe {
@@ -254,8 +238,10 @@ const homeHref = asset('/home');
         position: fixed;
         inset: 0;
         background: #000;
-        display: grid;
-        place-items: center;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: clamp(1.2rem, 2.4vw, 2.4rem);
         opacity: 0;
         transition: opacity 0.9s ease;
         z-index: 70;
@@ -264,29 +250,49 @@ const homeHref = asset('/home');
       .blackout.is-active { opacity: 1; pointer-events: auto; }
       .blackout__text {
         margin: 0;
-        color: rgba(255,255,255,0.28);
-        font-family: 'Geist Variable', 'Geist', serif;
-        font-style: italic;
-        font-size: clamp(2.4rem, 4vw, 4rem);
-        letter-spacing: 0.08em;
-        transform: translateY(8px);
+        color: #00ff41;
+        font-family: ui-monospace, 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+        font-weight: 300;
+        font-size: clamp(1.6rem, 2.6vw, 2.8rem);
+        letter-spacing: 0.02em;
+        text-shadow:
+          0 0 4px rgba(0, 255, 65, 0.55),
+          0 0 12px rgba(0, 255, 65, 0.3);
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+      .blackout__prompt { margin-right: 0.35ch; }
+      .blackout__dot {
+        font-size: 0.7em;
+        font-weight: 200;
+        letter-spacing: 0.06em;
+        vertical-align: 0.05em;
+      }
+      .blackout__text::after {
+        content: '';
+        display: inline-block;
+        width: 0.12em;
+        height: 1em;
+        background: #00ff41;
+        margin-left: 0.05em;
+        vertical-align: -0.12em;
+        box-shadow: 0 0 8px rgba(0, 255, 65, 0.8);
+        animation: blackout-caret 0.8s step-end infinite;
+      }
+      @keyframes blackout-caret {
+        0%, 50%   { opacity: 1; }
+        50.01%, 100% { opacity: 0; }
+      }
+
+      /* 28s timer: fade out all gate text. Only applies to intro page. */
+      .gate.is-text-gone .blackout__text {
         opacity: 0;
-        transition: opacity 1.4s ease 0.6s, transform 1.4s ease 0.6s;
-      }
-      .blackout.is-active .blackout__text { opacity: 1; transform: translateY(0); }
-
-      @keyframes gate-fade-in {
-        from { opacity: 0; transform: translateY(16px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
-      @media (max-width: 640px) {
-        .gate__content { gap: 1.6rem; }
-        .gate__pills { gap: 3rem; }
+        transition: opacity 1.2s ease;
+        pointer-events: none;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .gate__content { animation: none; }
+        .half::before { transition: none; }
         .red-wipe, .blue-wipe__panel, .blackout, .blackout__text { transition: none; }
       }
     </style>

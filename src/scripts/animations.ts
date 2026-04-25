@@ -31,11 +31,5 @@ export function initHeaderScrollState() {
 export function initGreeting() {
   const el = document.querySelector<HTMLElement>('[data-greeting]');
   if (!el) return;
-  const h = new Date().getHours();
-  const greeting =
-    h < 6 ? 'Still up?'
-    : h < 12 ? 'Good morning!'
-    : h < 18 ? 'Good afternoon!'
-    : 'Good evening!';
-  el.textContent = greeting;
+  el.textContent = 'Gerçek dünyaya hoş geldin.';
 }

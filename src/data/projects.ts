@@ -6,6 +6,8 @@ export type Project = {
   services: string[];
   selling: string;
   thumbnail: string;
+  clip?: string;
+  views?: string;
   accent: string;
   summary: string;
   sections: { heading: string; body: string }[];
@@ -18,12 +20,14 @@ const youtubeThumb = (id: string) => `https://img.youtube.com/vi/${id}/maxresdef
 export const projects: Project[] = [
   {
     slug: 'cinematic-01',
-    name: 'Sinematik Sahne I',
+    name: 'Melis Fis — Nefesini Tut',
     year: '2026',
     role: 'AI Director',
     services: ['AI Visuals', 'Prompt Engineering'],
     selling: 'Sinematik ışık ve kompozisyonla kurgulanmış AI sahnesi.',
     thumbnail: youtubeThumb('E1aYPYaT5Cc'),
+    clip: '/videos/cinematic-01.mp4',
+    views: '230B',
     accent: '#C9F500',
     summary:
       'Sinematik bir atmosferi prompt engineering ile piksele döktüğüm kısa film denemesi.',
@@ -36,12 +40,14 @@ export const projects: Project[] = [
   },
   {
     slug: 'cinematic-02',
-    name: 'Sinematik Sahne II',
+    name: 'PUBG Mobile × Apollo',
     year: '2026',
     role: 'AI Director',
     services: ['AI Visuals', 'Motion'],
     selling: 'Karakter ve mekan arasındaki dengeyi test eden AI çalışması.',
     thumbnail: youtubeThumb('XVJznw96YUc'),
+    clip: '/videos/cinematic-02.mp4',
+    views: '1M',
     accent: '#6EE7FF',
     summary:
       'Karakter yönetimi ve sahne tutarlılığını öne çıkaran ikinci sinematik deneme.',
@@ -54,12 +60,14 @@ export const projects: Project[] = [
   },
   {
     slug: 'cinematic-03',
-    name: 'Sinematik Sahne III',
+    name: 'Çakal — Susmam Lazım',
     year: '2026',
     role: 'AI Director',
     services: ['AI Visuals', 'Storytelling'],
     selling: 'Hikaye odaklı, AI ile üretilmiş kısa anlatı.',
     thumbnail: youtubeThumb('YqUnJ8ZSIlQ'),
+    clip: '/videos/cinematic-03.mp4',
+    views: '925B',
     accent: '#E5FF00',
     summary:
       'Kısa bir anlatıyı AI ile sahneleme üzerine üçüncü deneme.',
@@ -72,12 +80,14 @@ export const projects: Project[] = [
   },
   {
     slug: 'ai-reel',
-    name: 'AI Influencer Reel',
+    name: 'PUBG Mobile',
     year: '2026',
     role: 'AI Creator',
     services: ['AI Influencer', 'Social'],
     selling: '7/24 üretim yapan dijital karakterin Instagram reel’i.',
     thumbnail: '/placeholders/thumb-04.svg',
+    clip: '/videos/ai-reel.mp4',
+    views: '443B',
     accent: '#FF66C4',
     summary:
       'Sıfırdan kurulan AI Influencer karakterinin sosyal medya çıktısı.',

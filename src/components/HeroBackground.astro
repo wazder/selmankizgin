@@ -2,11 +2,17 @@
 import { asset } from '@/utils/url';
 ---
 <div class="hero-bg" data-hero-bg aria-hidden="true">
-  <div class="hero-bg__layer" data-hero-bg-layer>
+  <div class="hero-bg__layer hero-bg__layer--bg">
     <img
-      src={asset('/images/hero-1600.jpg')}
-      srcset={`${asset('/images/hero-960.jpg')} 960w, ${asset('/images/hero-1600.jpg')} 1600w, ${asset('/images/hero-2400.jpg')} 2400w`}
-      sizes="100vw"
+      src={asset('/images/bg.webp')}
+      alt=""
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+  <div class="hero-bg__layer hero-bg__layer--char" data-hero-bg-char>
+    <img
+      src={asset('/images/char.png')}
       alt=""
       loading="eager"
       decoding="async"

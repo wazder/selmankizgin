@@ -7,9 +7,7 @@ const { items, heading = 'Yakın zamanda tamamladığım projeler' } = Astro.pro
 ---
 <section class="projects-section container">
   <h2 class="section-title" data-reveal>
-    <span class="reg">{heading}</span>{' '}
-    <span class="muted">/ {String(items.length).padStart(2, '0')}</span>{' '}
-    <span class="muted">®</span>
+    <span class="reg">{heading}</span>
   </h2>
 
   <div class="projects-grid">
@@ -27,10 +25,32 @@ const { items, heading = 'Yakın zamanda tamamladığım projeler' } = Astro.pro
           data-reveal
           {...extra}
         >
-          <div
-            class="project-card__thumb"
-            style={`background-image: url(${asset(p.thumbnail)});`}
-          ></div>
+          {p.clip ? (
+            <video
+              class="project-card__thumb project-card__thumb--video"
+              src={asset(p.clip)}
+              poster={asset(p.thumbnail)}
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+              aria-hidden="true"
+            ></video>
+          ) : (
+            <div
+              class="project-card__thumb"
+              style={`background-image: url(${asset(p.thumbnail)});`}
+            ></div>
+          )}
+          {p.views && (
+            <div class="project-card__views" aria-label={`${p.views} izlenme`}>
+              <svg class="project-card__views-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 5C7 5 2.7 8.1 1 12c1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7zm0 11.5A4.5 4.5 0 1 1 16.5 12 4.5 4.5 0 0 1 12 16.5zm0-7A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5z" fill="currentColor"/>
+              </svg>
+              <span class="project-card__views-num">{p.views}</span>
+            </div>
+          )}
           <div class="project-card__overlay">
             <div>
               <div class="project-card__name">{p.name}</div>
