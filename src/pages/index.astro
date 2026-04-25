@@ -66,6 +66,10 @@ const homeHref = asset('/home');
       if (main) {
         const homeHref = main.dataset.homeHref || '/';
 
+        if (window.matchMedia('(max-width: 900px)').matches) {
+          window.location.replace(homeHref);
+        } else {
+
         const redWipe = main.querySelector<HTMLElement>('.red-wipe');
         const blueWipe = main.querySelector<HTMLElement>('.blue-wipe');
         const blackout = main.querySelector<HTMLElement>('.blackout');
@@ -135,6 +139,7 @@ const homeHref = asset('/home');
         window.setTimeout(() => {
           main.classList.add('is-text-gone');
         }, 28000);
+        }
       }
     </script>
 
@@ -175,7 +180,7 @@ const homeHref = asset('/home');
         .gate__video {
           object-fit: contain;
           background: #fff;
-          transform: scale(1.08);
+          transform: scale(1.6);
         }
       }
 
