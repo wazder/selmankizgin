@@ -39,6 +39,10 @@ const isHome = pathname === '/home';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://www.youtube.com" />
+    <link rel="preconnect" href="https://s.ytimg.com" />
+    <link rel="preconnect" href="https://i.ytimg.com" />
+    <script async src="https://www.youtube.com/iframe_api" data-yt-api></script>
   </head>
   <body data-home={isHome ? 'true' : 'false'}>
     <RedWipeEntry />

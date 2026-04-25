@@ -19,6 +19,10 @@ const homeHref = asset('/home');
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://www.youtube.com" />
+    <link rel="preconnect" href="https://s.ytimg.com" />
+    <link rel="preconnect" href="https://i.ytimg.com" />
+    <script async src="https://www.youtube.com/iframe_api" data-yt-api></script>
   </head>
   <body>
     <main class="gate" data-home-href={homeHref}>
@@ -140,7 +144,7 @@ const homeHref = asset('/home');
         padding: 0;
         height: 100%;
         height: 100dvh;
-        background: #000;
+        background: #fff;
         color: #fff;
         font-family: 'Geist Variable', 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
         overflow: hidden;
@@ -155,7 +159,7 @@ const homeHref = asset('/home');
         display: grid;
         place-items: center;
         overflow: hidden;
-        background: #000;
+        background: #fff;
       }
 
       .gate__video {
@@ -166,6 +170,13 @@ const homeHref = asset('/home');
         object-fit: cover;
         z-index: 0;
         pointer-events: none;
+      }
+      @media (max-width: 900px) {
+        .gate__video {
+          object-fit: contain;
+          background: #fff;
+          transform: scale(1.08);
+        }
       }
 
       .gate__halves {
