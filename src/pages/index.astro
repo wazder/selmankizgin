@@ -32,7 +32,10 @@ const homeHref = asset('/home');
         autoplay
         muted
         playsinline
+        webkit-playsinline
         preload="auto"
+        disablepictureinpicture
+        disableremoteplayback
         aria-hidden="true"
       >
         <source src={videoSrcMobile} media="(max-width: 900px)" type="video/mp4" />
@@ -122,8 +125,39 @@ const homeHref = asset('/home');
 
         const video = main.querySelector<HTMLVideoElement>('.gate__video');
         if (video) {
-          const tryPlay = () => video.play().catch(() => {});
-          tryPlay();
+          // iOS Safari is strict: set muted state on the element directly,
+          // not just via attribute, before any play() attempt.
+          video.muted = true;
+          video.defaultMuted = true;
+          (video as any).playsInline = true;
+
+          const tryPlay = () => {
+            const p = video.play();
+            if (p && typeof p.catch === 'function') {
+              p.catch(() => {
+                // If autoplay is blocked, kick it off on the first user gesture.
+                const start = () => {
+                  video.muted = true;
+                  video.play().catch(() => {});
+                  document.removeEventListener('touchstart', start);
+                  document.removeEventListener('pointerdown', start);
+                  document.removeEventListener('click', start);
+                };
+                document.addEventListener('touchstart', start, { passive: true, once: true });
+                document.addEventListener('pointerdown', start, { passive: true, once: true });
+                document.addEventListener('click', start, { once: true });
+              });
+            }
+          };
+
+          if (video.readyState >= 2) {
+            tryPlay();
+          } else {
+            video.addEventListener('loadeddata', tryPlay, { once: true });
+            video.addEventListener('canplay', tryPlay, { once: true });
+            tryPlay();
+          }
+
           video.addEventListener('ended', () => {
             try {
               video.pause();
