@@ -359,7 +359,7 @@
     background-size: 280% auto;
     background-position: 70% 70%;
     background-repeat: no-repeat;
-    transform-origin: 65% 28%;
+    transform-origin: 80% 34%;
     -webkit-mask-image: linear-gradient(to bottom, black 0%, black 92%, rgba(0,0,0,0.4) 97%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 0%, black 92%, rgba(0,0,0,0.4) 97%, transparent 100%);
     opacity: 1;
