@@ -5,6 +5,7 @@ import { site } from '@/data/site';
 const title = `${site.name} — ${site.tagline}`;
 const description = site.tagline;
 const videoSrc = asset('/videos/intro.MOV');
+const videoSrcMobile = asset('/videos/intro-mobile.MOV');
 const homeHref = asset('/home');
 ---
 <!doctype html>
@@ -28,13 +29,15 @@ const homeHref = asset('/home');
     <main class="gate" data-home-href={homeHref}>
       <video
         class="gate__video"
-        src={videoSrc}
         autoplay
         muted
         playsinline
         preload="auto"
         aria-hidden="true"
-      ></video>
+      >
+        <source src={videoSrcMobile} media="(max-width: 900px)" type="video/quicktime" />
+        <source src={videoSrc} type="video/quicktime" />
+      </video>
 
       <div class="gate__halves" role="group" aria-label="Seçimini yap">
         <button type="button" class="half half--red" data-choice="red" aria-label="Gerçeği gör"></button>
@@ -65,10 +68,6 @@ const homeHref = asset('/home');
       const main = document.querySelector<HTMLElement>('.gate');
       if (main) {
         const homeHref = main.dataset.homeHref || '/';
-
-        if (window.matchMedia('(max-width: 900px)').matches) {
-          window.location.replace(homeHref);
-        } else {
 
         const redWipe = main.querySelector<HTMLElement>('.red-wipe');
         const blueWipe = main.querySelector<HTMLElement>('.blue-wipe');
@@ -139,7 +138,6 @@ const homeHref = asset('/home');
         window.setTimeout(() => {
           main.classList.add('is-text-gone');
         }, 28000);
-        }
       }
     </script>
 
