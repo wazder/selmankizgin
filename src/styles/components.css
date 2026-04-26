@@ -360,11 +360,12 @@
   .hero-bg__layer--char {
     inset: 0 0 auto 0;
     width: 100%;
-    height: 72vh;
+    height: 78vh;
     background-image: url('/images/char.png');
     background-size: 360% auto;
-    background-position: 85% 22%;
+    background-position: 85% 32%;
     background-repeat: no-repeat;
+    transform-origin: 53% 22%;
     -webkit-mask-image: linear-gradient(to bottom, black 0%, black 72%, rgba(0,0,0,0.5) 90%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 0%, black 72%, rgba(0,0,0,0.5) 90%, transparent 100%);
     opacity: 1;
