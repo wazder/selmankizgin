@@ -100,21 +100,37 @@ export const projects: Project[] = [
   },
 ];
 
-export const testimonials = [
+export type Testimonial = {
+  quote: string[];
+  author: string;
+  role: string;
+};
+
+export const testimonials: Testimonial[] = [
   {
-    quote: 'Placeholder testimonial one — swap with something a real collaborator actually said about your work.',
-    author: 'Jane Collaborator',
-    role: 'Head of Product, Placeholder Co.',
+    quote: [
+      'Gemiyi her zaman en son kaptan terk edermiş; ben de öyle biliyordum.',
+      'Bugüne kadar birçok proje yönettim; birçok süreçten geçtim. Bu süreçlerde genelde projelerimin 360° tüm aşamasında başında olurum; çoğu zaman dar vakitlerde ürettiğim işlerin son exportlarını bile kendim alırım. Post prodüksiyon ekipleri bazen yorulur; bazen yaratıcı bakış açıları yorgunlukla zayıflar ve gemiyi terk edip evlerine giderler.',
+      '"Ben de öyle biliyordum."',
+      'Ta ki bir genç tanıyana kadar… Benimle birlikte gemiyi terk etmeyen; son ana kadar süreçte kalan. Savaşçı ruhu; yaratıcı düşünceleri ve pozitif motivasyonuyla son ana kadar yanımda duran bir genç…',
+      'Geç tanıdığım için üzüldüğüm; kısa zamanda birlikte güzel projelere imza attığım ekip arkadaşım Selman, seninle çalışmaktan memnunum. Bol başarılar.',
+    ],
+    author: 'Burak Kılıçkaya',
+    role: 'Yönetmen',
   },
   {
-    quote: 'Placeholder testimonial two — keep it specific. Vague praise reads as filler.',
-    author: 'Kerem Müşteri',
-    role: 'CEO, Placeholder Labs',
+    quote: [
+      'Selman, çizim yeteneği ve tasarımcı kimliği sayesinde her zaman sıra dışı ve kendine özgü çalışmalarıyla dikkat çekmeyi başarmıştı. Şimdi ise yaratım sürecine yapay zeka araçlarını dahil ederek, daha da etkileyici çalışmalar üretmeye başladı. Onun yeni eserlerini ve projelerini takip etmeyi sabırsızlıkla bekliyorum.',
+    ],
+    author: 'Umut Doğan Akgün',
+    role: 'Kreatif Ada Ajansı Kurucu Ortağı, Akademisyen',
   },
   {
-    quote: 'Placeholder testimonial three — quotes about craft, clarity, and shipping beat adjectives.',
-    author: 'Amaranta Example',
-    role: 'CTO, Placeholder Ventures',
+    quote: [
+      'Selman is one of those people who just gets it. He keeps things simple, listens carefully, and delivers work that feels thoughtful and well put together. Working with him felt easy the whole way through.',
+    ],
+    author: 'Hadi Haijou',
+    role: 'Global E-Ticaret Uzmanı, Girişimci',
   },
 ];
 
