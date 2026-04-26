@@ -17,9 +17,9 @@ export const site = {
   nav: [
     { label: 'Ana Sayfa', href: '/home' },
   ],
-  heroIntro: 'Simülasyondan çıkmaya hazır mısın?',
-  heroHeadline: 'Doğru seçimi',
-  heroAccentWord: 'yaptın.',
+  heroIntro: 'Doğru seçimi yaptın.',
+  heroHeadline: 'çıkmaya hazır mısın?',
+  heroAccentWord: 'Simülasyondan',
   modules: [
     {
       id: '01',

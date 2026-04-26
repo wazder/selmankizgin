@@ -124,9 +124,6 @@ function wireWidget() {
 }
 
 export function initHomeMusic() {
-  let active = false;
-  try { active = sessionStorage.getItem('music_active') === '1'; } catch {}
-  if (!active) return;
   if (player) return;
   if (document.getElementById('home-music-player')) return;
 

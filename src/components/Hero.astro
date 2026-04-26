@@ -10,6 +10,7 @@ const headlineWords = site.heroHeadline.trim().split(/\s+/);
   </div>
 
   <h1 class="hero__headline" data-reveal>
+    <span class="accent hero__headline-word">{site.heroAccentWord}</span>
     <span class="hero__headline-main">
       {headlineWords.map((w, i) => (
         <>
@@ -18,7 +19,6 @@ const headlineWords = site.heroHeadline.trim().split(/\s+/);
         </>
       ))}
     </span>
-    <span class="accent hero__headline-word">{site.heroAccentWord}</span>
   </h1>
 
   <a href="#curriculum" class="hero__cta-curriculum" data-curriculum-link data-cursor="-pointer" data-reveal>
