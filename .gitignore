@@ -11,3 +11,6 @@ dist/
 .playwright-mcp/
 analysis/
 /*.png
+/*.MOV
+/*.mov
+/*.mp4
