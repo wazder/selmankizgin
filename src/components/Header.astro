@@ -55,15 +55,26 @@ if (!path) path = '/';
 </header>
 
 <script>
+  function findVisibleSignup(): HTMLElement | null {
+    const candidates = ['#signup-mobile', '#signup'];
+    for (const sel of candidates) {
+      const el = document.querySelector<HTMLElement>(sel);
+      if (el && el.offsetParent !== null) return el;
+    }
+    return document.querySelector<HTMLElement>('#signup');
+  }
+
   document.addEventListener('click', (event) => {
     const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('[data-signup-link]');
     if (!link) return;
     const url = new URL(link.href, location.href);
     if (url.pathname === location.pathname && url.hash) {
       event.preventDefault();
-      const target = document.querySelector<HTMLElement>(url.hash);
+      const target = findVisibleSignup();
       if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const lenis = (window as any).__lenis;
+        if (lenis) lenis.scrollTo(target, { offset: -80 });
+        else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   });

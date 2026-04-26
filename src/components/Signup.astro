@@ -1,0 +1,87 @@
+---
+type Props = {
+  variant?: 'hero' | 'standalone';
+  id?: string;
+};
+const { variant = 'hero', id } = Astro.props;
+---
+{variant === 'standalone' ? (
+  <section class="signup-section" id={id} data-reveal>
+    <div class="container">
+      <p class="signup-section__eyebrow">Erken erişim</p>
+      <h2 class="signup-section__title">İçeride yer ayırt.</h2>
+      <p class="signup-section__lead">Mail adresini bırak, eğitim açıldığında ilk sen haber al.</p>
+      <form class="signup-form signup-form--standalone" data-signup-form novalidate>
+        <input
+          type="email"
+          name="email"
+          class="signup-form__input"
+          placeholder="seninadresin@mail.com"
+          autocomplete="email"
+          required
+        />
+        <button type="submit" class="signup-form__submit">Gönder</button>
+        <p class="signup-form__msg" data-signup-msg role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+) : (
+  <div class="hero__signup" id={id} data-reveal>
+    <p class="hero__signup-lead">Erken erişim için mail adresine kayıt ol</p>
+    <form class="signup-form" data-signup-form novalidate>
+      <input
+        type="email"
+        name="email"
+        class="signup-form__input"
+        placeholder="seninadresin@mail.com"
+        autocomplete="email"
+        required
+      />
+      <button type="submit" class="signup-form__submit">Gönder</button>
+      <p class="signup-form__msg" data-signup-msg role="status" aria-live="polite"></p>
+    </form>
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-signup-form]').forEach((form) => {
+    if (form.dataset.signupBound === '1') return;
+    form.dataset.signupBound = '1';
+    const msg = form.querySelector<HTMLParagraphElement>('[data-signup-msg]');
+    if (!msg) return;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[name="email"]');
+      const email = input?.value.trim() || '';
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        msg.textContent = 'Geçerli bir e-posta adresi gir.';
+        msg.dataset.state = 'error';
+        return;
+      }
+      msg.textContent = 'Gönderiliyor…';
+      msg.dataset.state = 'pending';
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/neo@selmankizgin.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            email,
+            _subject: 'Yeni erken erişim kaydı',
+            _template: 'box',
+            _captcha: 'false',
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        const ok = res.ok && (data.success === 'true' || data.success === true);
+        if (!ok) throw new Error(data.message || 'request failed');
+        msg.textContent = 'Sıradasın. Erken erişim açılınca sana haber vereceğiz.';
+        msg.dataset.state = 'success';
+        form.reset();
+      } catch (err) {
+        const detail = err instanceof Error ? err.message : '';
+        msg.textContent = detail ? `Gönderilemedi: ${detail}` : 'Gönderilemedi. Az sonra tekrar dene.';
+        msg.dataset.state = 'error';
+      }
+    });
+  });
+</script>

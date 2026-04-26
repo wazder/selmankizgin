@@ -3,11 +3,13 @@ import Base from '@/layouts/Base.astro';
 import Hero from '@/components/Hero.astro';
 import Intro from '@/components/Intro.astro';
 import ProjectGrid from '@/components/ProjectGrid.astro';
+import Signup from '@/components/Signup.astro';
 import { projects } from '@/data/projects';
 import { site } from '@/data/site';
 ---
 <Base title={`${site.name} — ${site.role}`} description={site.tagline}>
   <Hero />
   <Intro />
+  <Signup variant="standalone" id="signup-mobile" />
   <ProjectGrid items={projects} heading="Yakın zamanda tamamladığım projeler" />
 </Base>
