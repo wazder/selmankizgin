@@ -24,7 +24,7 @@ export const site = {
     {
       id: '01',
       name: 'Para Kazanma (The Cheat Code)',
-      body: 'Çok iyi bir AI çıktısı üretmek kimseye para kazandırmaz, onu nasıl satacağını bilmelisin. Global markalara pazarlama, freelance platformlarda yüksek gelirli işler, dropshipping ve içerik satışı gibi AI destekli iş modelleri — benim kullandığım stratejileri uygulayacağız.',
+      body: 'Çok iyi bir AI çıktısı üretmek kimseye para kazandırmaz, onu nasıl satacağını bilmelisin. Global markalara pazarlama, freelance platformlarda yüksek gelirli işler ve içerik satışı gibi AI destekli iş modelleri — benim kullandığım stratejileri uygulayacağız.',
     },
     {
       id: '02',

@@ -108,13 +108,19 @@
   }
 }
 
+/* Mobile: intentional rhythm, not just shrunk desktop */
 @media (max-width: 640px) {
   :root {
-    --fs-h1: 5.2rem;
-    --fs-h2: 4rem;
-    --fs-h3: 3.2rem;
-    --fs-h4: 2.6rem;
-    --fs-display: 6.4rem;
-    --container-padding: 2rem;
+    --fs-h1: 4.8rem;
+    --fs-h2: 3.6rem;
+    --fs-h3: 3rem;
+    --fs-h4: 2.4rem;
+    --fs-display: 5.6rem;
+    --container-padding: 2.4rem;
+
+    /* mobile vertical rhythm */
+    --m-section-y: 8rem;
+    --m-section-y-lg: 10rem;
+    --m-block-y: 4rem;
   }
 }

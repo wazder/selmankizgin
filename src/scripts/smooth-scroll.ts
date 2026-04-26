@@ -10,6 +10,9 @@ declare global {
 
 export function initSmoothScroll() {
   if (window.__lenis) return window.__lenis;
+  if (window.matchMedia('(max-width: 900px)').matches || window.matchMedia('(pointer: coarse)').matches) {
+    return;
+  }
 
   const lenis = new Lenis({
     duration: 1.15,

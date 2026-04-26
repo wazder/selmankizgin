@@ -3,11 +3,7 @@ import { site } from '@/data/site';
 ---
 <section class="hero">
   <div class="hero__name-wrap" data-reveal>
-    <div class="hero__intro-line">{site.heroIntro}</div>
-    <h2 class="hero__name">
-      <span class="first">{site.firstName}</span>{' '}
-      <span class="last">{site.lastName}</span>
-    </h2>
+    <h2 class="hero__name">{site.heroIntro}</h2>
   </div>
 
   <h1 class="hero__headline" data-reveal>
@@ -15,8 +11,12 @@ import { site } from '@/data/site';
     <span class="accent">{site.heroAccentWord}</span>
   </h1>
 
+  <a href="#curriculum" class="hero__cta-curriculum" data-curriculum-link data-cursor="-pointer" data-reveal>
+    Bu eğitimde neler öğreneceksin?
+  </a>
+
   <div class="hero__signup" id="signup" data-reveal>
-    <p class="hero__signup-lead">Mail adresine kayıt ol</p>
+    <p class="hero__signup-lead">Erken erişim için mail adresine kayıt ol</p>
     <form class="signup-form" data-signup-form novalidate>
       <input
         type="email"
@@ -26,7 +26,7 @@ import { site } from '@/data/site';
         autocomplete="email"
         required
       />
-      <button type="submit" class="signup-form__submit">Sıraya gir</button>
+      <button type="submit" class="signup-form__submit">Gönder</button>
       <p class="signup-form__msg" data-signup-msg role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -35,6 +35,17 @@ import { site } from '@/data/site';
 </section>
 
 <script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-curriculum-link]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector<HTMLElement>('#curriculum');
+      if (!target) return;
+      const lenis = (window as any).__lenis;
+      if (lenis) lenis.scrollTo(target, { offset: -80 });
+      else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
   const form = document.querySelector<HTMLFormElement>('[data-signup-form]');
   const msg = document.querySelector<HTMLParagraphElement>('[data-signup-msg]');
   if (form && msg) {

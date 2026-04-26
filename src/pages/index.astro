@@ -4,7 +4,7 @@ import { site } from '@/data/site';
 
 const title = `${site.name} — ${site.tagline}`;
 const description = site.tagline;
-const videoSrc = asset('/videos/matrix.mov');
+const videoSrc = asset('/videos/intro.MOV');
 const homeHref = asset('/home');
 ---
 <!doctype html>
@@ -15,7 +15,7 @@ const homeHref = asset('/home');
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#000000" />
-    <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />
+    <link rel="icon" type="image/jpeg" href={asset('/favicon.jpg')} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -176,14 +176,6 @@ const homeHref = asset('/home');
         z-index: 0;
         pointer-events: none;
       }
-      @media (max-width: 900px) {
-        .gate__video {
-          object-fit: contain;
-          background: #fff;
-          transform: scale(1.6);
-        }
-      }
-
       .gate__halves {
         position: absolute;
         inset: 0;

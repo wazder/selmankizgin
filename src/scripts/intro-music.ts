@@ -35,12 +35,9 @@ export function initIntroMusic() {
       },
       events: {
         onReady(e: any) {
+          try { e.target.unMute(); } catch {}
+          try { e.target.setVolume(INTRO_VOLUME); } catch {}
           try { e.target.playVideo(); } catch {}
-          window.setTimeout(() => {
-            try { e.target.unMute(); } catch {}
-            try { e.target.setVolume(INTRO_VOLUME); } catch {}
-            try { e.target.playVideo(); } catch {}
-          }, 60);
           detachUnmute = attachGestureUnmute(e.target, () => INTRO_VOLUME);
         },
         onStateChange(e: any) {

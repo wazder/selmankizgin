@@ -24,22 +24,20 @@ export function initHeroBackground() {
     tickerFn = null;
   }
 
-  const projectsSection = document.querySelector<HTMLElement>('.projects-section');
-  const endElement = projectsSection || document.body;
-
+  const heroSection = document.querySelector<HTMLElement>('.hero');
   const introSection = document.querySelector<HTMLElement>('.intro');
-  const fadeTrigger = introSection || endElement;
+  const zoomTrigger = heroSection || document.body;
+  const fadeTrigger = introSection || zoomTrigger;
 
-  // Scroll zoom — bg subtly, char more strongly toward the character's head
+  // Scroll zoom — bg subtly, char strongly into the character's head, completed within the hero viewport
   if (bgLayer) {
     const bgScale = gsap.to(bgLayer, {
-      scale: 1.25,
+      scale: 1.4,
       ease: 'none',
       scrollTrigger: {
-        trigger: document.body,
+        trigger: zoomTrigger,
         start: 'top top',
-        endTrigger: endElement,
-        end: 'top center',
+        end: 'bottom top',
         scrub: 0.6,
       },
     });
@@ -48,27 +46,26 @@ export function initHeroBackground() {
 
   if (charLayer) {
     const charScale = gsap.to(charLayer, {
-      scale: 1.8,
+      scale: 2.4,
       ease: 'none',
       scrollTrigger: {
-        trigger: document.body,
+        trigger: zoomTrigger,
         start: 'top top',
-        endTrigger: endElement,
-        end: 'top center',
+        end: 'bottom top',
         scrub: 0.6,
       },
     });
     triggers.push(charScale.scrollTrigger!);
   }
 
-  // Fade hero-bg out as the intro section comes into view so text stays readable
+  // Fade hero-bg out only after the zoom has played, as intro fully takes over
   const fadeTween = gsap.to(bg, {
     opacity: 0,
     ease: 'power2.out',
     scrollTrigger: {
       trigger: fadeTrigger,
-      start: 'top 90%',
-      end: 'top 30%',
+      start: 'top 30%',
+      end: 'top top',
       scrub: true,
     },
   });

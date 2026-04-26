@@ -31,9 +31,33 @@ export function ensureYT(): Promise<any> {
   });
 }
 
+const GESTURE_EVENTS = [
+  'pointerdown',
+  'pointermove',
+  'pointerover',
+  'mousemove',
+  'mouseover',
+  'mouseenter',
+  'keydown',
+  'touchstart',
+  'wheel',
+  'scroll',
+] as const;
+
+let earlyGestureSeen = false;
+
+if (typeof window !== 'undefined') {
+  const markGesture = () => {
+    earlyGestureSeen = true;
+  };
+  for (const ev of GESTURE_EVENTS) {
+    window.addEventListener(ev, markGesture, { capture: true, passive: true });
+  }
+}
+
 export function attachGestureUnmute(player: any, getTargetVolume: () => number): () => void {
   let unmuted = false;
-  const handler = () => {
+  const unmuteNow = () => {
     if (unmuted) return;
     unmuted = true;
     try { player.unMute?.(); } catch {}
@@ -42,16 +66,17 @@ export function attachGestureUnmute(player: any, getTargetVolume: () => number):
     detach();
   };
   const detach = () => {
-    window.removeEventListener('pointerdown', handler, true);
-    window.removeEventListener('pointermove', handler, true);
-    window.removeEventListener('keydown', handler, true);
-    window.removeEventListener('touchstart', handler, true);
-    window.removeEventListener('wheel', handler, true);
+    for (const ev of GESTURE_EVENTS) {
+      window.removeEventListener(ev, unmuteNow, true);
+    }
   };
-  window.addEventListener('pointerdown', handler, true);
-  window.addEventListener('pointermove', handler, true);
-  window.addEventListener('keydown', handler, true);
-  window.addEventListener('touchstart', handler, true);
-  window.addEventListener('wheel', handler, true);
+  for (const ev of GESTURE_EVENTS) {
+    window.addEventListener(ev, unmuteNow, true);
+  }
+  // If any gesture already happened before the player was ready, unmute on
+  // the next frame so the iframe has time to register.
+  if (earlyGestureSeen) {
+    requestAnimationFrame(unmuteNow);
+  }
   return detach;
 }
