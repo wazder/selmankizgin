@@ -409,8 +409,8 @@
   max-width: 70rem;
   overflow: visible;
 }
-.hero__headline .accent { color: var(--cl-accent); display: block; padding-bottom: 0.35em; }
-.hero__headline-main { display: block; padding-bottom: 0.35em; }
+.hero__headline .accent { color: var(--cl-accent); display: block; padding-bottom: 0; }
+.hero__headline-main { display: block; padding-bottom: 0; }
 
 .hero__cta-curriculum {
   grid-column: 1 / -1;
