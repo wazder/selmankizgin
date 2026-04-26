@@ -543,11 +543,13 @@
     min-height: 100svh;
     padding: 56vh var(--container-padding) 4rem;
     gap: 1.4rem;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto auto auto;
-    justify-content: end;
+    justify-content: stretch;
     align-content: end;
+    overflow-x: clip;
   }
-  .hero__name-wrap { gap: 0.6rem; align-self: end; }
+  .hero__name-wrap { gap: 0.6rem; align-self: end; min-width: 0; }
   .hero__name {
     font-size: 1.3rem;
     font-weight: 400;
@@ -557,13 +559,15 @@
     line-height: 1.4em;
   }
   .hero__headline {
-    font-size: 5.6rem;
+    font-size: clamp(3.2rem, 11.8vw, 5.6rem);
     line-height: 1.04em;
     letter-spacing: -0.03em;
     padding-bottom: 0;
     text-transform: uppercase;
     font-weight: 700;
     gap: 0;
+    min-width: 0;
+    max-width: 100%;
   }
   .hero__headline-main { padding-bottom: 0; display: block; }
   .hero__headline-word {
