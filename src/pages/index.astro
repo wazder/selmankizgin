@@ -5,7 +5,7 @@ import { site } from '@/data/site';
 const title = `${site.name} — ${site.tagline}`;
 const description = site.tagline;
 const videoSrc = asset('/videos/intro.MOV');
-const videoSrcMobile = asset('/videos/intro-mobile.MOV');
+const videoSrcMobile = asset('/videos/intro-mobile.mp4');
 const homeHref = asset('/home');
 ---
 <!doctype html>
@@ -35,7 +35,7 @@ const homeHref = asset('/home');
         preload="auto"
         aria-hidden="true"
       >
-        <source src={videoSrcMobile} media="(max-width: 900px)" type="video/quicktime" />
+        <source src={videoSrcMobile} media="(max-width: 900px)" type="video/mp4" />
         <source src={videoSrc} type="video/quicktime" />
       </video>
 
