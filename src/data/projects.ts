@@ -20,7 +20,7 @@ const youtubeThumb = (id: string) => `https://img.youtube.com/vi/${id}/maxresdef
 export const projects: Project[] = [
   {
     slug: 'cinematic-01',
-    name: 'Melis Fis — PUBG',
+    name: 'Melis Fis — PUBG Mobile',
     year: '2026',
     role: 'AI Director',
     services: ['AI Visuals', 'Prompt Engineering'],
