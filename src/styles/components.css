@@ -559,9 +559,9 @@
     line-height: 1.4em;
   }
   .hero__headline {
-    font-size: clamp(3.2rem, 11.8vw, 5.6rem);
-    line-height: 1.04em;
-    letter-spacing: -0.03em;
+    font-size: clamp(2.4rem, 9.6vw, 4.4rem);
+    line-height: 1.06em;
+    letter-spacing: -0.025em;
     padding-bottom: 0;
     text-transform: uppercase;
     font-weight: 700;

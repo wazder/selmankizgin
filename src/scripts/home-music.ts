@@ -124,6 +124,7 @@ function wireWidget() {
 }
 
 export function initHomeMusic() {
+  if (window.matchMedia('(max-width: 900px)').matches) return;
   if (player) return;
   if (document.getElementById('home-music-player')) return;
 

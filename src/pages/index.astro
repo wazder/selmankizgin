@@ -6,6 +6,7 @@ const title = `${site.name} — ${site.tagline}`;
 const description = site.tagline;
 const videoSrc = asset('/videos/intro.MOV');
 const videoSrcMobile = asset('/videos/intro-mobile.mp4');
+const videoPosterMobile = asset('/videos/intro-mobile-poster.jpg');
 const homeHref = asset('/home');
 ---
 <!doctype html>
@@ -36,6 +37,7 @@ const homeHref = asset('/home');
         preload="auto"
         disablepictureinpicture
         disableremoteplayback
+        poster={videoPosterMobile}
         aria-hidden="true"
       >
         <source src={videoSrcMobile} media="(max-width: 900px)" type="video/mp4" />
@@ -76,7 +78,10 @@ const homeHref = asset('/home');
         const blueWipe = main.querySelector<HTMLElement>('.blue-wipe');
         const blackout = main.querySelector<HTMLElement>('.blackout');
 
-        initIntroMusic();
+        const isMobile = window.matchMedia('(max-width: 900px)').matches;
+        if (!isMobile) {
+          initIntroMusic();
+        }
 
         main.addEventListener('click', (event) => {
           const target = (event.target as HTMLElement).closest<HTMLElement>('[data-choice]');
@@ -91,11 +96,11 @@ const homeHref = asset('/home');
             try {
               sessionStorage.setItem('rp_entering', '1');
             } catch {}
-            handoffIntroMusic(350);
+            if (!isMobile) handoffIntroMusic(350);
             window.setTimeout(() => { window.location.href = homeHref; }, 600);
           } else {
             blueWipe?.classList.add('is-active');
-            destroyIntroMusic();
+            if (!isMobile) destroyIntroMusic();
             window.setTimeout(() => {
               blackout?.classList.add('is-active');
               const textEl = blackout?.querySelector<HTMLElement>('.blackout__text');
@@ -207,6 +212,17 @@ const homeHref = asset('/home');
         object-fit: cover;
         z-index: 0;
         pointer-events: none;
+        background: #000;
+      }
+      /* Hide the iOS Safari overlay "play" button when autoplay is blocked
+         (e.g. Low Power Mode) — gate halves act as the start gesture. */
+      .gate__video::-webkit-media-controls-start-playback-button {
+        display: none !important;
+        -webkit-appearance: none;
+      }
+      .gate__video::-webkit-media-controls {
+        display: none !important;
+        -webkit-appearance: none;
       }
       .gate__halves {
         position: absolute;
